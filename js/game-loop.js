@@ -258,6 +258,8 @@ window.addEventListener(
             false
         );
 
+        releaseTouchInput();
+
         setShiftMode(false);
     }
 );
@@ -268,7 +270,7 @@ window.addEventListener(
 ================================================== */
 
 arrow.style.left =
-    "80px";
+    getLaneX("left") + "px";
 
 
 laneText.textContent =

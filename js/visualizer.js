@@ -9,6 +9,9 @@ function setButtonInput(source, pressed) {
 
         keyboardButtonHeld =
             pressed;
+    } else if (source === "touch") {
+        touchButtonHeld =
+            pressed;
     } else {
         deviceButtonHeld =
             pressed;
@@ -16,7 +19,8 @@ function setButtonInput(source, pressed) {
 
     buttonHeld =
         keyboardButtonHeld ||
-        deviceButtonHeld;
+        deviceButtonHeld ||
+        touchButtonHeld;
 
     if (
         buttonHeld &&
@@ -34,6 +38,64 @@ function setButtonInput(source, pressed) {
         releaseHoldNote();
     }
 }
+
+let touchPointerId = null;
+
+game.addEventListener(
+    "pointerdown",
+    event => {
+        if (
+            !running ||
+            !event.isPrimary ||
+            (event.pointerType !== "touch" &&
+                event.pointerType !== "pen") ||
+            event.target === youtubePlayer
+        ) {
+            return;
+        }
+
+        event.preventDefault();
+        changeLane(
+            event.clientX < window.innerWidth / 2
+                ? "left"
+                : "right"
+        );
+
+        touchPointerId =
+            event.pointerId;
+
+        setButtonInput(
+            "touch",
+            true
+        );
+    }
+);
+
+function releaseTouchInput(event) {
+    if (
+        touchPointerId === null ||
+        (event && event.pointerId !== touchPointerId)
+    ) {
+        return;
+    }
+
+    touchPointerId = null;
+
+    setButtonInput(
+        "touch",
+        false
+    );
+}
+
+window.addEventListener(
+    "pointerup",
+    releaseTouchInput
+);
+
+window.addEventListener(
+    "pointercancel",
+    releaseTouchInput
+);
 
 function playWaterRipple() {
 
@@ -416,5 +478,3 @@ function setShiftMode(held) {
             );
     }
 }
-
-

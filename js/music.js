@@ -381,7 +381,7 @@ startButton.addEventListener(
 
 
         arrow.style.left =
-            "80px";
+            getLaneX("left") + "px";
 
 
         laneText.textContent =

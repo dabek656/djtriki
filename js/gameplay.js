@@ -2,6 +2,22 @@
    ZMIANA TORU
 ================================================== */
 
+function getLaneX(lane) {
+    const track =
+        document.getElementById("track");
+
+    return track.clientWidth *
+        (lane === "left" ? 0.16 : 0.84);
+}
+
+window.addEventListener(
+    "resize",
+    () => {
+        arrow.style.left =
+            getLaneX(currentLane) + "px";
+    }
+);
+
 function changeLane(lane) {
 
     if (
@@ -15,35 +31,13 @@ function changeLane(lane) {
         lane;
 
 
-    /*
-       Lewy tor.
-    */
+    arrow.style.left =
+        getLaneX(lane) + "px";
 
-    if (
+    laneText.textContent =
         lane === "left"
-    ) {
-
-        arrow.style.left =
-            "80px";
-
-        laneText.textContent =
-            "LEWY";
-
-    }
-
-
-    /*
-       Prawy tor.
-    */
-
-    else {
-
-        arrow.style.left =
-            "420px";
-
-        laneText.textContent =
-            "PRAWY";
-    }
+            ? "LEWY"
+            : "PRAWY";
 }
 
 
@@ -303,9 +297,7 @@ function spawnPoint() {
     */
 
     const x =
-        lane === "left"
-        ? 80
-        : 420;
+        getLaneX(lane);
 
 
     element.style.left =

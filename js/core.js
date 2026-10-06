@@ -241,6 +241,9 @@ let keyboardButtonHeld =
 let deviceButtonHeld =
     false;
 
+let touchButtonHeld =
+    false;
+
 let buttonHeld =
     false;
 
